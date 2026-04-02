@@ -33,7 +33,7 @@ function Login() {
                 toast.error(res.error)
             }else{
                 router.push("/")
-                
+
                 toast.success("login sucessfully")
 
 
@@ -52,8 +52,11 @@ function Login() {
     <div className='flex w-full h-dvh justify-center items-center'>
     <ToastContainer />
         <form onSubmit={handleSubmit} className='flex flex-col border border-white w-96 h-96 gap-10 p-2 pt-10 rounded-2xl'>
-            <input name='email' onChange={handleInputChange} value={inputstate.email} className='p-2 border border-white rounded' type="email" placeholder='type your email' />
-            <input name='password' value={inputstate.password} onChange={handleInputChange} className='p-2 border border-white rounded' type="password" placeholder='type your password' />
+            <input required name='email' onChange={handleInputChange} value={inputstate.email} className='p-2 border border-white rounded' type="email" placeholder='type your email' />
+            <input required name='password' value={inputstate.password} onChange={handleInputChange} className='p-2 border border-white rounded' type="password" placeholder='type your password' />
+            <button 
+            type='button'
+            className="text-blue-300 underline" onClick={() => router.push("/signup")} >register before login</button>
             <button type='submit' className='p-2 rounded-xl bg-blue-400 '>Submit</button>
         </form>
     </div>
