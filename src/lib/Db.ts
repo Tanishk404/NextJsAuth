@@ -1,32 +1,28 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const MONGO_URL = process.env.MONGODB_URI as string
+const MONGO_URL = process.env.MONGODB_URI as string;
 
-let isConnected:boolean = false;
-
-export async function ConnectionDB(){
-    try {
-
-        if(mongoose.connection.readyState >= 1 || isConnected){
-            return;
-        }
-
-        if(!MONGO_URL){
-            throw new Error("Please define the MONGO_URL environment variable")
-        }   
-
-
-        await mongoose.connect(MONGO_URL);
-
-        isConnected = true
-
-        console.log("Connection sucess🟢")
-        return mongoose
-        
-    } catch (error) {
-
-        console.log("Connection faild with DataBase🔴 :", error)
-        
-    }
+if (!MONGO_URL) {
+  throw new Error("Please define MONGODB_URI");
 }
 
+let cached = (global as any).mongoose || { conn: null, promise: null };
+
+export async function ConnectionDB() {
+
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGO_URL).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  cached.conn = await cached.promise;
+
+  console.log("Connection success 🟢");
+
+  return cached.conn;
+}
