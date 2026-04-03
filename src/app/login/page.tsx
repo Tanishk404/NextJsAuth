@@ -3,9 +3,12 @@ import { signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 import {ToastContainer, toast} from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { useSession } from "next-auth/react";
 
 function Login() {
     const router = useRouter()
+    const session = useSession()
+    console.log()
     const [inputstate, setState] = useState({
         email:'',
         password:''
@@ -56,8 +59,8 @@ function Login() {
             <input required name='password' value={inputstate.password} onChange={handleInputChange} className='p-2 border border-white rounded' type="password" placeholder='type your password' />
             <button 
             type='button'
-            className="text-blue-300 underline" onClick={() => router.push("/signup")} >register before login</button>
-            <button type='submit' className='p-2 rounded-xl bg-blue-400 '>Submit</button>
+            className="text-blue-300 underline cursor-pointer" onClick={() => router.push("/signup")} >register before login</button>
+            <button type='submit' className='p-2 cursor-pointer rounded-xl bg-blue-400 '>Submit</button>
         </form>
     </div>
   )

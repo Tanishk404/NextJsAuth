@@ -1,11 +1,11 @@
 import { getToken } from "next-auth/jwt";
-import { redirect } from "next/dist/server/api-utils";
+
 import { NextRequest, NextResponse } from "next/server";
 
 
 export async function middleware(req: NextRequest){
     const token = await getToken({req,
-        secret: process.env.NEXTAUTH_SECRET
+        secret: process.env.NEXT_AUTH_SECRET
     })
     if(!token){
         return NextResponse.redirect(new URL('/login', req.url))
