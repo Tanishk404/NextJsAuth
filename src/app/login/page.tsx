@@ -3,12 +3,11 @@ import { signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 import {ToastContainer, toast} from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { useSession } from "next-auth/react";
+
 
 function Login() {
     const router = useRouter()
-    const session = useSession()
-    console.log()
+   
     const [inputstate, setState] = useState({
         email:'',
         password:''
