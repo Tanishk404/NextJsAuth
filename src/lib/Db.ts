@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const MONGO_URL = process.env.MONGO_DB_URI as string
+const MONGO_URL = process.env.MONGODB_URI as string
 
 let isConnected:boolean = false;
 
