@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 interface UserSchemaType {
     name: string;
+    image: string;
     email: string;
     password: string;
 }
@@ -12,7 +13,9 @@ const Userschema = new mongoose.Schema<UserSchemaType>({
         type: String,
         required: true
     },
-
+    image: {
+        type: String,
+    },
     email: {
         type: String,
         required: true,
@@ -20,7 +23,7 @@ const Userschema = new mongoose.Schema<UserSchemaType>({
     },
     password: {
         type: String,
-        required: true
+        required: false
     }
 })  
 

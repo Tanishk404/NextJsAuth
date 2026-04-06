@@ -4,6 +4,7 @@ import { ConnectionDB } from '../../../../lib/Db'
 import { UserModel } from '@/models/User'
 import bcrypt from 'bcryptjs'
 import { NextAuthOptions } from 'next-auth'
+import Google from 'next-auth/providers/google'
 
 
 
@@ -14,6 +15,10 @@ interface creden {
 
 export const authOptions:NextAuthOptions = {
     providers:[
+        Google({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SCERET!
+        }),
         CredentialsProvider({
             name: "credentials",
 
@@ -46,7 +51,25 @@ export const authOptions:NextAuthOptions = {
         })
     ],
 
-    callbacks:{},
+    callbacks:{
+        async signIn({user, account}) {
+            if(account?.provider === 'google'){
+                await ConnectionDB()
+
+                const existingUser = await UserModel.findOne({email: user.email})
+
+
+                if(!existingUser) {
+                    await UserModel.create({
+                        email: user.email,
+                        name: user.name,
+                        image: user?.image
+                    })
+                }
+            }
+            return true
+        }
+    },
 
     pages: {
         signIn : "/login"

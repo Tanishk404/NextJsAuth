@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 import {ToastContainer, toast} from 'react-toastify'
 import { useRouter } from 'next/navigation'
-
+import { FcGoogle } from "react-icons/fc";
 
 function Login() {
     const router = useRouter()
@@ -60,6 +60,13 @@ function Login() {
             type='button'
             className="text-blue-300 underline cursor-pointer" onClick={() => router.push("/signup")} >register before login</button>
             <button type='submit' className='p-2 cursor-pointer rounded-xl bg-blue-400 '>Submit</button>
+
+            <button
+            type='button'
+            onClick={() => signIn('google', {callbackUrl: "/"})}
+             className='flex justify-center cursor-pointer items-center gap-2 bg-white text-black p-1 rounded-2xl'>
+              <FcGoogle className='text-2xl' />  Login with google
+            </button>
         </form>
     </div>
   )
