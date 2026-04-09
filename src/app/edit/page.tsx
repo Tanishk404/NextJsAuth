@@ -88,7 +88,7 @@ const { update } = useSession()
         <Image 
         loading="eager"
         className='rounded-full border-2 hover:border-blue-300 border-white cursor-pointer w-28 h-28 object-cover' alt='image' width={100} height={100} 
-        src={GetEdit?.image || `https://ui-avatars.com/api/?name=${data?.name?.charAt(0) || 'U'}& background=0D8ABC&color=000`}
+        src={GetEdit?.image || `https://ui-avatars.com/api/?name=${GetEdit?.name?.charAt(0) || 'U'}& background=0D8ABC&color=000`}
         /> 
     </div>
 
