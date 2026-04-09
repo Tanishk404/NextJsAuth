@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 
 interface UserSchemaType {
+    id: string;
     name: string;
     image: string;
     email: string;
@@ -23,7 +24,8 @@ const Userschema = new mongoose.Schema<UserSchemaType>({
     },
     password: {
         type: String,
-        required: false
+        required: false,
+        select: false
     }
 })  
 

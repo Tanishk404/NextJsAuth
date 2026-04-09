@@ -13,6 +13,14 @@ interface creden {
     password:  string
 }
 
+
+interface SessionType {
+    name: string | undefined;
+    email: string | undefined;
+    password: string | undefined;
+    id: string | undefined;
+}
+
 export const authOptions:NextAuthOptions = {
     providers:[
         Google({
@@ -46,7 +54,12 @@ export const authOptions:NextAuthOptions = {
 
                 console.log("✅ Login successful")
 
-                return user
+                return {
+                    id: user._id.toString(),
+                    name: user.name,
+                    email: user.email,
+                    image: user.image
+}
             }
         })
     ],
@@ -60,14 +73,42 @@ export const authOptions:NextAuthOptions = {
 
 
                 if(!existingUser) {
-                    await UserModel.create({
+                   const newUser = await UserModel.create({
                         email: user.email,
                         name: user.name,
                         image: user?.image
                     })
+                    user.id = newUser._id.toString()
+                }else{
+                user.id = existingUser._id.toString()
                 }
             }
             return true
+        },
+
+        async jwt({token, user, trigger, session}){
+            if(user){
+                token.id=user.id
+            token.name=user.name
+            token.email=user.email
+            token.image=user.image
+            }  
+        if(trigger === "update"){
+        token.name = session?.name
+        token.image = session?.image
+    }
+            return token
+        },
+
+        async session({session, token}:  any){
+            console.log(session)
+            if(session.user){
+                session.user.id = token.id as string
+                session.user.name=token.name
+                session.user.email=token.email
+                session.user.image=token.image as string
+            }
+            return session
         }
     },
 
@@ -77,6 +118,7 @@ export const authOptions:NextAuthOptions = {
 
     session: {
         strategy: "jwt",
+        maxAge: 7*24*60*60
     },
 
 
