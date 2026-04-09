@@ -94,7 +94,7 @@ const { update } = useSession()
 
       <p>Login email:  {data?.email}</p>
 
-      <input type="text" name='name' value={inputName || GetEdit.name}  className='bg-[#2e2e2e] p-2 rounded-md w-full border' onChange={(e) => (setInputName(e.target.value))}/>
+      <input type="text" name='name' value={inputName || GetEdit?.name || ''}  className='bg-[#2e2e2e] p-2 rounded-md w-full border' onChange={(e) => (setInputName(e.target.value))}/>
 
         <div className='flex gap-10'>
 
