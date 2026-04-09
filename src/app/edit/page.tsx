@@ -41,7 +41,11 @@ const { update } = useSession()
           setImg(file)
           const url = URL.createObjectURL(file)
           if(!url) return
-          setPreview(url)      
+          setPreview(url)
+          setGetEdit((prev:any) => ({
+            ...prev,
+            image: url
+          }))      
         }
 
     const HandleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
@@ -84,19 +88,19 @@ const { update } = useSession()
         <Image 
         loading="eager"
         className='rounded-full border-2 hover:border-blue-300 border-white cursor-pointer w-28 h-28 object-cover' alt='image' width={100} height={100} 
-        src={preview || `https://ui-avatars.com/api/?name=${data?.name?.charAt(0)}& background=0D8ABC&color=000`}
+        src={GetEdit?.image || `https://ui-avatars.com/api/?name=${data?.name?.charAt(0)}& background=0D8ABC&color=000`}
         /> 
     </div>
 
       <p>Login email:  {data?.email}</p>
 
-      <input type="text" name='name' value={inputName}  className='bg-[#2e2e2e] p-2 rounded-md w-full border' onChange={(e) => (setInputName(e.target.value))}/>
+      <input type="text" name='name' value={inputName || GetEdit.name}  className='bg-[#2e2e2e] p-2 rounded-md w-full border' onChange={(e) => (setInputName(e.target.value))}/>
 
         <div className='flex gap-10'>
 
-            <button className='bg-[#2e2e2e] hover:bg-[#1e1e1e] p-2 cursor-pointer rounded-2xl '>Save</button>
+            <button type='submit' className='bg-[#2e2e2e] hover:bg-[#1e1e1e] p-2 cursor-pointer rounded-2xl '>Save</button>
 
-            <button className='border p-2 rounded-2xl hover:bg-[#2f2f2f] cursor-pointer' onClick={() => (router.push('/'))}>Cancel</button>
+            <button type='button' className='border p-2 rounded-2xl hover:bg-[#2f2f2f] cursor-pointer' onClick={() => (router.push('/'))}>Cancel</button>
 
         </div>
     </form>
